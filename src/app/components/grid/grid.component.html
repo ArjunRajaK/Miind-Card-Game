@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="game-info">
+        <p-card>
+            <app-game-info></app-game-info>
+        </p-card><br>
+    </div>
+    <div class="game">
+        @for (grid of gridData; track grid.id) {
+        <div class="card">
+            <img class="img" (click)="handleCardClick(grid)" [src]="grid.activeImgUrl" alt="{{grid.name}}">
+        </div>
+        }
+    </div>
+</div>
