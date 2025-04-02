@@ -1,17 +1,35 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { GridComponent } from './grid.component';
-import { CARD_BACK_SIDE_URL, GRID_DATA } from '../../constants/grid.data';
+import { GameService } from '../../services/game.service';
+import { of } from 'rxjs';
+import { GameDifficultyLevel } from '../../models/results';
 
 describe('GridComponent', () => {
   let component: GridComponent;
   let fixture: ComponentFixture<GridComponent>;
+  let gameService: GameService;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({}).compileComponents();
+    await TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: GameService,
+          useValue: {
+            level: of('Easy'),
+            result: of(null),
+            updateLevel: () => {},
+            invokeToggleTimer: () => {},
+            toggleTimer: of(null),
+          },
+        },
+      ],
+    }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(GridComponent);
     component = fixture.componentInstance;
+    gameService = TestBed.inject(GameService);
     fixture.detectChanges();
   });
 
@@ -19,38 +37,47 @@ describe('GridComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit()', () => {
-    spyOn(component, 'ngOnInit');
-    component.ngOnInit();
-    expect(component.ngOnInit).toHaveBeenCalled();
-  });
-
-  it('should call subscribeToResult()', () => {
-    spyOn<any>(component, 'subscribeToResult');
-    component['subscribeToResult']();
-    expect(component['subscribeToResult']).toHaveBeenCalled();
-  });
-
-  it('should call subscribeToLevel()', () => {
-    spyOn<any>(component, 'subscribeToLevel');
-    component['subscribeToLevel']();
-    expect(component['subscribeToLevel']).toHaveBeenCalled();
-  });
-
-  it('should call handleCardClick()', () => {
-    spyOn<any>(component, 'handleCardClick');
-    component['handleCardClick']({
-      activeImgUrl: CARD_BACK_SIDE_URL,
+  it('should handle card click', () => {
+    const card = {
+      name: 'test',
+      imgUrl: 'test.jpg',
+      activeImgUrl: component.cardBackSideUrl,
       id: 1,
-      imgUrl: GRID_DATA[0].imgUrl,
-      name: GRID_DATA[0].name,
-    });
-    expect(component['handleCardClick']).toHaveBeenCalled();
+    };
+    component.handleCardClick(card);
+    expect(card.activeImgUrl).toBe('test.jpg');
   });
 
-  it('should call subscribeToLevel()', () => {
-    spyOn<any>(component, 'goToNextLevel');
-    component['goToNextLevel']();
-    expect(component['goToNextLevel']).toHaveBeenCalled();
+  it('should handle card click with winning count', () => {
+    const card = {
+      name: 'queen',
+      imgUrl: 'queen.jpg',
+      activeImgUrl: component.cardBackSideUrl,
+      id: 1,
+    };
+    component.winningCount = 1;
+    component.previuosCard = { ...card, id: 2 };
+    component.handleCardClick(card);
+    expect(component.matchCount).toBe(component.winningCount);
+  });
+
+  it('should handle card click without same image', () => {
+    const card = {
+      name: 'queen1',
+      imgUrl: 'queen.jpg',
+      activeImgUrl: component.cardBackSideUrl,
+      id: 1,
+    };
+    component.previuosCard = { ...card, id: 2, name: 'queen2' };
+    component.handleCardClick(card);
+    expect(component.previuosCard.activeImgUrl).toBe(component.cardBackSideUrl);
+  });
+
+  it('should go to next level', () => {
+    component.goToNextLevel();
+    expect(component.previuosCard).toBeNull();
+    expect(component.moves).toBe(0);
+    expect(component.matchCount).toBe(0);
+    expect(component.visible).toBeFalse();
   });
 });
