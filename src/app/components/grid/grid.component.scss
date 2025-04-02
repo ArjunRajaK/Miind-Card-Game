@@ -1,6 +1,11 @@
 .img {
-    height: 9em;
-    width: 9em;
+    height: 12em;
+    width: 15em;
+    transition: transform 0.3s ease;
+}
+
+.img:hover {
+    transform: translateY(-10px);
 }
 
 .container {
@@ -12,13 +17,27 @@
 .game {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 3px;
+    border-radius: 6px;
     padding: 6px;
 }
 
 .card {
     width: 23%;
     display: flex;
+    margin-left: 2px;
+}
+
+.level-btn {
+    margin-top: 1rem;
+    float: right;
+}
+
+p-fieldset {
+    height: 100px;
+
+    h1 {
+        margin: 0px;
+    }
 }

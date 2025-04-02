@@ -12,3 +12,16 @@
         }
     </div>
 </div>
+<p-dialog header="GAME STATS" [modal]="true" [closable]="false" [(visible)]="visible" [style]="{ width: '25rem' }">
+    @if (result) {
+    <p-fieldset legend="Number of moves">
+        <h1>{{moves}}</h1>
+    </p-fieldset>
+    <p-fieldset legend="Time taken for completion">
+        <h1>{{result.minutesTaken}}m:{{result.secondsTaken}}s</h1>
+    </p-fieldset>
+    <div class="level-btn">
+        <p-button label="Next Level" (click)="goToNextLevel()" />
+    </div>
+    }
+</p-dialog>
