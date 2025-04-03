@@ -1,0 +1,50 @@
+$card-width: 80%;
+
+.img {
+    height: 150px;
+    width: 130px;
+    transition: transform 0.3s ease;
+}
+
+.img:hover {
+    transform: translateY(-10px);
+}
+
+.container {
+    width: 45%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.game {
+    width: $card-width;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 6px;
+    padding: 6px;
+}
+
+.game-info {
+    width: $card-width;
+}
+
+.card {
+    width: 23%;
+    display: flex;
+    margin-left: 2px;
+}
+
+.level-btn {
+    margin-top: 1rem;
+    float: right;
+}
+
+p-fieldset {
+    height: 100px;
+
+    h1 {
+        margin: 0px;
+    }
+}

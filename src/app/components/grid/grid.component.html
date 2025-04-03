@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="game-info">
+        <p-card>
+            <app-game-info></app-game-info>
+        </p-card><br>
+    </div>
+    <div class="game">
+        @for (grid of gridData; track grid.id) {
+        <div class="card">
+            <img class="img" (click)="handleCardClick(grid)" [src]="grid.activeImgUrl" alt="{{grid.name}}">
+        </div>
+        }
+    </div>
+</div>
+<p-dialog header="GAME STATS" [modal]="true" [closable]="false" [(visible)]="visible" [style]="{ width: '25rem' }">
+    @if (result) {
+    <p-fieldset legend="Number of moves">
+        <h1>{{moves}}</h1>
+    </p-fieldset>
+    <p-fieldset legend="Time taken for completion">
+        <h1>{{result.minutesTaken}}m:{{result.secondsTaken}}s</h1>
+    </p-fieldset>
+    <div class="level-btn">
+        <p-button label="Next Level" (click)="goToNextLevel()" />
+    </div>
+    }
+</p-dialog>
