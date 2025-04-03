@@ -51,7 +51,7 @@ export class GridComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToResult(): void {
-    this.gameService.result
+    this.gameService.result$
       .pipe(takeUntil(this.onDestroy$))
       .pipe(filter((r) => !!r))
       .subscribe((result) => {
@@ -62,7 +62,7 @@ export class GridComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLevel(): void {
-    this.gameService.level
+    this.gameService.level$
       .pipe(takeUntil(this.onDestroy$))
       .pipe(filter((r) => !!r))
       .subscribe((level) => {

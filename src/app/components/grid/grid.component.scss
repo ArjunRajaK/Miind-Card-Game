@@ -1,6 +1,8 @@
+$card-width: 80%;
+
 .img {
-    height: 12em;
-    width: 15em;
+    height: 150px;
+    width: 130px;
     transition: transform 0.3s ease;
 }
 
@@ -15,12 +17,17 @@
 }
 
 .game {
+    width: $card-width;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 6px;
     padding: 6px;
+}
+
+.game-info {
+    width: $card-width;
 }
 
 .card {

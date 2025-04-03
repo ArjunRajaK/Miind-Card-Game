@@ -1,10 +1,12 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
+  filter,
   interval,
   lastValueFrom,
   Subject,
   Subscription,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { TimePipe } from '../../pipes/time.pipe';
 import { GameService } from '../../services/game.service';
@@ -43,25 +45,26 @@ export class GameInfoComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLevel(): void {
-    this.gameService.level
+    this.gameService.level$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((level) => (this.level = level));
   }
 
   private subscribeToToggleTimer(): void {
-    this.gameService.toggleTimer
+    this.gameService.toggleTimer$
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((value) => {
-        if (value) {
+      .pipe(
+        tap((t) => {
+          if (!t) return;
           this.gameService.updateResult({
             minutesTaken: this.minutes,
             secondsTaken: this.seconds,
           });
           this.stopTime();
-          return;
-        }
-        this.subscribeToTimer();
-      });
+        })
+      )
+      .pipe(filter((f) => !f))
+      .subscribe(() => this.subscribeToTimer());
   }
 
   stopTime(): void {
