@@ -15,11 +15,11 @@ describe('GridComponent', () => {
         {
           provide: GameService,
           useValue: {
-            level: of('Easy'),
-            result: of(null),
+            level$: of('Easy'),
+            result$: of(null),
             updateLevel: () => {},
             invokeToggleTimer: () => {},
-            toggleTimer: of(null),
+            toggleTimer$: of(null),
           },
         },
       ],
@@ -56,7 +56,7 @@ describe('GridComponent', () => {
       id: 1,
     };
     component.winningCount = 1;
-    component.previuosCard = { ...card, id: 2 };
+    component.previousCard = { ...card, id: 2 };
     component.handleCardClick(card);
     expect(component.matchCount).toBe(component.winningCount);
   });
@@ -68,14 +68,14 @@ describe('GridComponent', () => {
       activeImgUrl: component.cardBackSideUrl,
       id: 1,
     };
-    component.previuosCard = { ...card, id: 2, name: 'queen2' };
+    component.previousCard = { ...card, id: 2, name: 'queen2' };
     component.handleCardClick(card);
-    expect(component.previuosCard.activeImgUrl).toBe(component.cardBackSideUrl);
+    expect(component.previousCard.activeImgUrl).toBe(component.cardBackSideUrl);
   });
 
   it('should go to next level', () => {
     component.goToNextLevel();
-    expect(component.previuosCard).toBeNull();
+    expect(component.previousCard).toBeNull();
     expect(component.moves).toBe(0);
     expect(component.matchCount).toBe(0);
     expect(component.visible).toBeFalse();

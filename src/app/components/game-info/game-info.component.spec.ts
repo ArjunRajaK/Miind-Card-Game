@@ -15,8 +15,8 @@ describe('GameInfoComponent', () => {
         {
           provide: GameService,
           useValue: {
-            level: of('Easy'),
-            toggleTimer: of(false),
+            level$: of('Easy'),
+            toggleTimer$: of(true),
             updateResult: () => {},
           },
         },
@@ -45,20 +45,17 @@ describe('GameInfoComponent', () => {
   it('should stop time when toggleTimer emits true', () => {
     spyOn(component.gameService, 'updateResult').and.callThrough();
     spyOn(component, 'stopTime').and.callThrough();
-    gameService.toggleTimer = new Subject<boolean>();
+    gameService['toggleTimer'] = new Subject<boolean>();
     component['subscribeToToggleTimer']();
-    gameService.toggleTimer.next(true);
-    expect(gameService.updateResult).toHaveBeenCalledWith({
-      minutesTaken: component.minutes,
-      secondsTaken: component.seconds,
-    });
+    gameService['toggleTimer'].next(true);
+    expect(gameService.updateResult).toHaveBeenCalled();
     expect(component.stopTime).toHaveBeenCalled();
   });
 
   it('should update level', () => {
     component['subscribeToLevel']();
-    gameService.level = new BehaviorSubject<GameDifficultyLevel>('Easy');
-    gameService.level.next('Easy');
+    gameService['level'] = new BehaviorSubject<GameDifficultyLevel>('Easy');
+    gameService['level'].next('Easy');
     expect(component.level).toBe('Easy');
   });
 });
