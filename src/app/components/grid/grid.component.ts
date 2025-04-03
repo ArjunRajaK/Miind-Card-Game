@@ -32,7 +32,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 export class GridComponent implements OnInit, OnDestroy {
   gridData!: ICard[];
   cardBackSideUrl = CARD_BACK_SIDE_URL;
-  previuosCard!: ICard | null;
+  previousCard!: ICard | null;
   moves: number = 0;
   matchCount = 0;
   winningCount = 0;
@@ -75,28 +75,29 @@ export class GridComponent implements OnInit, OnDestroy {
     if (data.activeImgUrl !== this.cardBackSideUrl) return;
     data.activeImgUrl = data.imgUrl;
     this.moves++;
-    if (!this.previuosCard) {
-      this.previuosCard = data;
+    if (!this.previousCard) {
+      this.previousCard = data;
       return;
     }
-    if (this.previuosCard.name === data.name) {
+    if (this.previousCard.name === data.name) {
       this.matchCount++;
-      this.previuosCard = null;
+      this.previousCard = null;
       if (this.matchCount === this.winningCount) {
         this.gameService.invokeToggleTimer(true);
       }
       return;
     }
+    // Using set timeout to let the user memorize the card
     setTimeout(() => {
-      if (this.previuosCard)
-        this.previuosCard.activeImgUrl = this.cardBackSideUrl;
+      if (this.previousCard)
+        this.previousCard.activeImgUrl = this.cardBackSideUrl;
       data.activeImgUrl = this.cardBackSideUrl;
-      this.previuosCard = null;
+      this.previousCard = null;
     }, 1000);
   }
 
   goToNextLevel(): void {
-    this.previuosCard = null;
+    this.previousCard = null;
     this.moves = 0;
     this.matchCount = 0;
     this.visible = false;

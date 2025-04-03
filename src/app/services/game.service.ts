@@ -6,9 +6,9 @@ import { GameDifficultyLevel, IResult } from '../models/results';
   providedIn: 'root',
 })
 export class GameService {
-  private readonly toggleTimer = new Subject<boolean>();
-  private readonly result = new Subject<IResult>();
-  private readonly level = new BehaviorSubject<GameDifficultyLevel>('Easy');
+  private toggleTimer = new Subject<boolean>();
+  private result = new Subject<IResult>();
+  private level = new BehaviorSubject<GameDifficultyLevel>('Easy');
   constructor() {}
 
   invokeToggleTimer(value: boolean): void {
